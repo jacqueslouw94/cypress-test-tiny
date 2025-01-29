@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Express Web UI</title>
+  </head>
+  <body>
+    <h1>Record List</h1>
+    <button id="fetchRecordsBtn">Fetch Records</button>
+    <ul id="recordsList"></ul>
+
+    <script>
+      document
+        .getElementById("fetchRecordsBtn")
+        .addEventListener("click", async function () {
+          const response = await fetch("/api/records");
+          //   response = await fetch("/api/records", {
+          //     headers: {
+          //       "Content-Type": "application/json",
+          //       "x-get-extra-records": "true",
+          //     },
+          //   });
+          const records = await response.json();
+          const recordsList = document.getElementById("recordsList");
+          recordsList.innerHTML = "";
+
+          records.forEach((record) => {
+            const li = document.createElement("li");
+            li.textContent = `${record.id}: ${record.name}`;
+            recordsList.appendChild(li);
+          });
+        });
+    </script>
+  </body>
+</html>
